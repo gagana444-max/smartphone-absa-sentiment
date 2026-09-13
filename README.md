@@ -1,21 +1,49 @@
-# 📱 Smartphone Aspect-Based Sentiment Analysis (ABSA) Pipeline
+# 💻 Laptop Aspect-Based Sentiment Analysis (ABSA) Pipeline
 
-An end-to-end, production-ready Natural Language Processing (NLP) pipeline that extracts granular product aspect sentiments (e.g., *battery*, *camera*, *screen*, *price*) from unstructured smartphone customer reviews.
+A comprehensive data science portfolio project analyzing Flipkart laptop reviews to understand customer sentiment at both an overall and fine-grained aspect level. 
 
----
+This project spans data cleaning, exploratory data analysis (EDA), non-parametric statistical hypothesis testing, and a supervised baseline machine learning sentiment model, laying the foundation for fine-grained aspect-level sentiment extraction.
 
-## 📌 Business Problem & Impact
-
-Standard sentiment analysis models evaluate raw reviews as a single overall score, masking critical product insights. A customer might love a phone's **camera** ("amazing photos!") while despising its **battery** ("terrible life"). 
-
-This project solves that limitation by leveraging **Syntactic Dependency Parsing** and **Supervised Machine Learning** to isolate specific device feature mentions and accurately score aspect-level sentiments, giving product teams actionable feature feedback.
+> **Context:** Developed as part of a mentor-led Data Science Special Interest Group (SIG), following a structured weekly curriculum.
 
 ---
 
-## 🏗️ Architecture & Pipeline Overview
+## 📌 Project Goal & Problem Statement
 
-The project is structured into three execution stages:
+Standard star ratings and document-level sentiment analysis evaluate raw reviews as a single score, masking critical product insights. Laptop reviews frequently mix multiple opinions within a single sentence—for example, praising **battery life** ("lasts all day!") while criticizing the **display** ("screen is dim and washed out").
 
-1. **Data Preprocessing & Cleaning:** Normalizes schema, extracts smartphone brands, removes noise, and filters short reviews.
-2. **Rule-Based Aspect Extraction:** Employs `spaCy` dependency parsing to map descriptive adjectives directly to aspect targets, scored via `vaderSentiment`.
-3. **Supervised Sentiment Modeling:** Converts review text into TF-IDF n-gram vectors and trains a `LogisticRegression` classifier for multi-class sentiment categorization.
+This project works toward **Aspect-Based Sentiment Analysis (ABSA)**: identifying specific product features mentioned in a review (*battery*, *display*, *build quality*, *performance*, etc.) and determining the sentiment expressed toward each one individually.
+
+---
+
+## 📊 Dataset Overview
+
+* **Source:** Flipkart Laptop Customer Reviews
+* **Dataset Size:** 16,991 reviews after cleaning, spanning 20 leading laptop brands
+* **Key Raw Columns:** `product_name`, `rating`, `review`, `no_ratings`, `no_reviews`
+* **Derived/Engineered Features:** `brand`, `popularity_tier`, `review_length`
+
+---
+
+## 🏗️ Repository Structure
+
+```text
+laptop-absa-project/
+├── data/
+│   ├── raw/                        # Raw scraped dataset files
+│   └── processed/                  # Cleaned and feature-enriched CSVs
+│       ├── processed_data.csv
+│       └── processed_data_enriched.csv
+├── notebooks/
+│   ├── 01_data_understanding.ipynb # Data schema audit & exploration
+│   ├── 02_data_cleaning.ipynb      # Deduplication & text standardization
+│   ├── 03_exploratory_data_analysis.ipynb # Brand & rating distributions
+│   ├── 04_statistical_analysis.ipynb      # Hypothesis testing (Kruskal-Wallis, Chi-Square)
+│   └── 05_model_baseline.ipynb      # Supervised sentiment classifier (TF-IDF + LogReg)
+├── reports/
+│   ├── data_cleaning_report.pdf
+│   ├── eda_summary.pdf
+│   ├── statistical_analysis_report.pdf
+│   └── model_baseline_report.pdf
+├── requirements.txt
+└── README.md

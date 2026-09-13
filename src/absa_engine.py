@@ -56,6 +56,11 @@ def run_absa_pipeline(df, output_csv_path, max_samples=3000):
             })
 
     df_absa = pd.DataFrame(records)
+    
+    if df_absa.empty:
+        print("[!] Warning: No aspect-opinion pairs were extracted.")
+        df_absa = pd.DataFrame(columns=["brand", "aspect", "opinion", "sentiment_score"])
+
     os.makedirs(os.path.dirname(output_csv_path), exist_ok=True)
     df_absa.to_csv(output_csv_path, index=False)
     print(f"[✓] ABSA extraction pipeline completed ({df_absa.shape[0]} aspect pairs) -> {output_csv_path}")
