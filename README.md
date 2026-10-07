@@ -1,49 +1,51 @@
-# 💻 Laptop Aspect-Based Sentiment Analysis (ABSA) Pipeline
+# 📱 Smartphone Aspect-Based Sentiment Analysis (ABSA) Pipeline
 
-A comprehensive data science portfolio project analyzing Flipkart laptop reviews to understand customer sentiment at both an overall and fine-grained aspect level. 
+An end-to-end NLP data engineering pipeline that analyzes **57,828 smartphone reviews** to extract fine-grained customer sentiment at the specific product feature level (camera, battery, screen, performance) across major manufacturers.
 
-This project spans data cleaning, exploratory data analysis (EDA), non-parametric statistical hypothesis testing, and a supervised baseline machine learning sentiment model, laying the foundation for fine-grained aspect-level sentiment extraction.
-
-> **Context:** Developed as part of a mentor-led Data Science Special Interest Group (SIG), following a structured weekly curriculum.
+> **Context:** Developed as a modular Python package featuring automated data cleaning, dependency parsing, ASIN-level metadata propagation, and supervised machine learning classification.
 
 ---
 
-## 📌 Project Goal & Problem Statement
+## 📌 Project Overview
 
-Standard star ratings and document-level sentiment analysis evaluate raw reviews as a single score, masking critical product insights. Laptop reviews frequently mix multiple opinions within a single sentence—for example, praising **battery life** ("lasts all day!") while criticizing the **display** ("screen is dim and washed out").
+Standard star ratings mask critical product insights by assigning a single score to an entire review. Customers frequently express mixed opinions in a single statement—for example, praising the camera while criticizing battery life.
 
-This project works toward **Aspect-Based Sentiment Analysis (ABSA)**: identifying specific product features mentioned in a review (*battery*, *display*, *build quality*, *performance*, etc.) and determining the sentiment expressed toward each one individually.
+This project implements an **Aspect-Based Sentiment Analysis (ABSA)** engine that:
+1. Identifies specific product feature targets (*camera*, *battery*, *display*, *price*) using syntactic dependency parsing.
+2. Measures opinion polarity using rule-based sentiment scoring.
+3. Groups and attributes feedback accurately to specific brands (*Samsung*, *Apple*, *Motorola*, *Google*, etc.).
+4. Classifies overall document sentiment using supervised machine learning (**83.75% accuracy**).
 
 ---
 
-## 📊 Dataset Overview
+## 📊 Dataset & Scope
 
-* **Source:** Flipkart Laptop Customer Reviews
-* **Dataset Size:** 16,991 reviews after cleaning, spanning 20 leading laptop brands
-* **Key Raw Columns:** `product_name`, `rating`, `review`, `no_ratings`, `no_reviews`
-* **Derived/Engineered Features:** `brand`, `popularity_tier`, `review_length`
+* **Dataset Size:** 57,828 cleaned customer reviews
+* **Extracted Aspect-Opinion Pairs:** 1,686 structured feature tuples
+* **Brand Coverage:** Samsung, Apple, Motorola, Nokia, Sony, Xiaomi, Google, and more
+* **Key Columns:** `asin`, `brand`, `rating`, `title`, `body`, `clean_review`, `review_length`
 
 ---
 
 ## 🏗️ Repository Structure
 
 ```text
-laptop-absa-project/
+smartphone-absa-project/
 ├── data/
 │   ├── raw/                        # Raw scraped dataset files
-│   └── processed/                  # Cleaned and feature-enriched CSVs
+│   └── processed/                  # Processed datasets and extracted aspect CSVs
 │       ├── processed_data.csv
-│       └── processed_data_enriched.csv
-├── notebooks/
-│   ├── 01_data_understanding.ipynb # Data schema audit & exploration
-│   ├── 02_data_cleaning.ipynb      # Deduplication & text standardization
-│   ├── 03_exploratory_data_analysis.ipynb # Brand & rating distributions
-│   ├── 04_statistical_analysis.ipynb      # Hypothesis testing (Kruskal-Wallis, Chi-Square)
-│   └── 05_model_baseline.ipynb      # Supervised sentiment classifier (TF-IDF + LogReg)
-├── reports/
-│   ├── data_cleaning_report.pdf
-│   ├── eda_summary.pdf
-│   ├── statistical_analysis_report.pdf
-│   └── model_baseline_report.pdf
-├── requirements.txt
-└── README.md
+│       └── absa_structured_output.csv
+├── notebooks/                      # Exploratory research notebooks
+│   ├── 01_data_cleaning.ipynb
+│   ├── 02_eda_and_stats.ipynb
+│   ├── 03_rule_based_absa.ipynb
+│   └── 04_ml_sentiment_model.ipynb
+├── src/                            # Modular Python package
+│   ├── __init__.py
+│   ├── data_processing.py          # Data ingestion & ASIN brand propagation
+│   ├── absa_engine.py              # spaCy dependency parsing & VADER scoring
+│   └── sentiment_model.py          # TF-IDF + Logistic Regression classifier
+├── main.py                         # Automated end-to-end pipeline driver
+├── requirements.txt                # Python package dependencies
+└── README.md                       # Documentation
